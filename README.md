@@ -22,13 +22,13 @@ Now, do:
 
 2. Start the virtual machine using `vagrant up` (May take 10-30 minutes this first time. Ignore red command line statements and warnings.)
 
-3. Add the exercise/exercises you want to work on (you can always add new exercises at a later stage).
-  1. TODO: Add instructions
+3. Add the exercise/exercises you want to work on (you can always add new exercises at a later stage). `git subtree add --prefix=tiny-tunes --squash git@github.com:CS-LNU-Learning-Objects/exercise-tiny-tunes.git master` to add the tiny-tunes exercise.
 
 3. `vagrant ssh` to connect to the machine.
 
 ## In the vagrant terminal (after `vagrant ssh`)
 1. Make sure you are located in the folder of the exercise you are working on.
+2. If it is the first time working on this exercise do a `npm install`
 2. Do `npm start`. The following will happen:
   * A process will start watching files in the folder `source/` for changes. When a change is detected the file will be "compiled" in to a virtuak file called "build.js". A web server is started which will serve your browser with the resources needed.
 3. Browse to `http://10.10.10.61:4000` to locate the application.
