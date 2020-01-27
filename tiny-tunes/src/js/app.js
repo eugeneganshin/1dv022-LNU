@@ -1,3 +1,4 @@
-import { ex01 } from './exercises.js'
+import { ex01, ex02 } from './exercises.js'
 
 ex01()
+ex02()
