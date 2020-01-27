@@ -46,3 +46,18 @@ export function ex06 () {
     ul.appendChild(li)
   }
 }
+
+export function ex07 () {
+  const template = document.querySelector('#step07-template')
+  let liTemplate
+  const select = document.querySelector('#step07')
+
+  for (let i = 0; i < 5; i++) {
+    liTemplate = document.importNode(template.content, true)
+    const a = liTemplate.querySelector('a')
+    a.setAttribute('href', 'http://google.com')
+    a.innerText = `This is the ${i + 1}`
+    select.appendChild(liTemplate)
+    // console.log(liTemplate)
+  }
+}
