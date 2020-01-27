@@ -37,3 +37,12 @@ export function ex05 () {
   const select = document.querySelector('.greybox a')
   select.addEventListener('click', () => { ex05pTag() })
 }
+
+export function ex06 () {
+  // const fragment = document.createDocumentFragment()
+  const ul = document.querySelector('#list06')
+  for (let i = 0; i < 10; i++) {
+    const li = document.createElement('li')
+    ul.appendChild(li)
+  }
+}
