@@ -100,3 +100,17 @@ export function ex08 () {
 }
 
 /* Ex09 */
+export function ex09 () {
+  const username = document.querySelector('#textboxes09 input')
+  const confirm = document.querySelector('#textboxes09 input:nth-child(3)')
+  const select = document.querySelector('.validation')
+  console.log(select)
+  if (username.value === confirm.value) {
+    const myText = document.createTextNode('Same text!')
+    const pElem = document.createElement('p')
+
+    pElem.appendChild(myText)
+    username.addEventListener('focusout', () => { select.appendChild(pElem) })
+    confirm.addEventListener('focusout', () => { select.appendChild(pElem) })
+  }
+}
