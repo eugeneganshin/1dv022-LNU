@@ -103,14 +103,14 @@ export function ex08 () {
 export function ex09 () {
   const username = document.querySelector('#textboxes09 input')
   const confirm = document.querySelector('#textboxes09 input:nth-child(3)')
-  const select = document.querySelector('.validation')
-  console.log(select)
-  if (username.value === confirm.value) {
-    const myText = document.createTextNode('Same text!')
-    const pElem = document.createElement('p')
-
-    pElem.appendChild(myText)
-    username.addEventListener('focusout', () => { select.appendChild(pElem) })
-    confirm.addEventListener('focusout', () => { select.appendChild(pElem) })
-  }
+  const validation = document.querySelector('.validation')
+  document.querySelector('#textboxes09').addEventListener('blur', event => {
+    if (username.value.length > 0 && confirm.value.length) {
+      if (username.value === confirm.value) {
+        validation.innerText = 'The username does match'
+      } else {
+        validation.innerHTML = 'The username does not match'
+      }
+    }
+  }, true)
 }
