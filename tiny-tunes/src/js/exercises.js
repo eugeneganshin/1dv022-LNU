@@ -71,7 +71,7 @@ export function ex07 () {
 
 /* Ex08 */
 const input = document.querySelector('#todolistform > input')
-const ul = document.querySelector('#todolist')
+const ul = document.querySelector('#todolist ul')
 const button = document.querySelector('#todolistform > button')
 
 function inputLength () {
