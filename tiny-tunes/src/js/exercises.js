@@ -1,9 +1,11 @@
+/* Ex01 */
 export function ex01 () {
   const myText = document.createTextNode('Hello World!')
   const pTag = document.querySelector('#step01_hello')
   pTag.appendChild(myText)
 }
 
+/* Ex02 */
 export function ex02 () {
   const h2Elem = document.createElement('h2')
   const h2Text = document.createTextNode('This is a sub headline')
@@ -12,6 +14,7 @@ export function ex02 () {
   divTag.appendChild(h2Elem)
 }
 
+/* Ex03 */
 export function ex03 () {
   const h2Elem = document.createElement('h2')
   const h2Text = document.createTextNode('This is a sub headline')
@@ -20,6 +23,7 @@ export function ex03 () {
   select.appendChild(h2Elem)
 }
 
+/* Ex04 */
 export function ex04 () {
   document.querySelector('#step04 > h2').style.color = 'red'
 }
@@ -33,11 +37,13 @@ function ex05pTag () {
   console.log('som')
 }
 
+/* Ex05 */
 export function ex05 () {
   const select = document.querySelector('.greybox a')
   select.addEventListener('click', () => { ex05pTag() })
 }
 
+/* Ex06 */
 export function ex06 () {
   // const fragment = document.createDocumentFragment()
   const ul = document.querySelector('#list06')
@@ -47,6 +53,7 @@ export function ex06 () {
   }
 }
 
+/* Ex07 */
 export function ex07 () {
   const template = document.querySelector('#step07-template')
   let liTemplate
@@ -61,3 +68,35 @@ export function ex07 () {
     // console.log(liTemplate)
   }
 }
+
+/* Ex08 */
+const input = document.querySelector('#todolistform > input')
+const ul = document.querySelector('#todolist')
+const button = document.querySelector('#todolistform > button')
+
+function inputLength () {
+  return input.value.length
+}
+function createLi () {
+  const li = document.createElement('li')
+  li.appendChild(document.createTextNode(input.value))
+  ul.appendChild(li)
+}
+function addLi () {
+  if (inputLength() > 0) {
+    createLi()
+  }
+}
+
+function addLiOnKey (event) {
+  if (inputLength() > 0 && event.keyCode === 13) {
+    createLi()
+  }
+}
+
+export function ex08 () {
+  button.addEventListener('click', addLi)
+  input.addEventListener('keypress', addLiOnKey)
+}
+
+/* Ex09 */
