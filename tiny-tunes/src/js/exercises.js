@@ -105,12 +105,14 @@ export function ex09 () {
   const confirm = document.querySelector('#textboxes09 input:nth-child(3)')
   const validation = document.querySelector('.validation')
   document.querySelector('#textboxes09').addEventListener('blur', event => {
-    if (username.value.length > 0 && confirm.value.length) {
+    if (username.value.length > 0 && confirm.value.length > 0) {
       if (username.value === confirm.value) {
         validation.innerText = 'The username does match'
       } else {
         validation.innerHTML = 'The username does not match'
       }
+    } else {
+      validation.innerHTML = ''
     }
   }, true)
 }
