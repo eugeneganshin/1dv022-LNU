@@ -27,11 +27,25 @@ export class BartBoard extends window.HTMLElement {
     this.shadowRoot.appendChild(template.content.cloneNode(true))
   }
 
-  connectedCallback () {
+  _updateRendering () {
     if (this.hasAttribute('text')) {
       this.shadowRoot.querySelector('#text').innerText = this.getAttribute('text')
-      return
     }
+  }
+
+  static get observedAttributes () {
+    return ['text']
+  }
+
+  connectedCallback () {
+    this._updateRendering()
+  }
+
+  attributeChangedCallback (name, oldValue, newValue) {
+    // if (name === 'text') {
+    //   this.shadowRoot.querySelector('#text').innerText = newValue
+    // }
+    this._updateRendering()
   }
 }
 
