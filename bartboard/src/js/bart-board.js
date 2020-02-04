@@ -10,8 +10,8 @@ template.innerHTML = `
     padding:10px;
     border:6px solid #9b3b00;
     border-bottom:12px solid #9b3b00;
-    overflow:hidden;
-    margin:10px;
+    // overflow:hidden;
+    margin:5px;
     float:left;
     border-radius: 3px;
   }
@@ -29,7 +29,7 @@ export class BartBoard extends window.HTMLElement {
     this._intervalID = null
     this._letter = 0
     this.text = 'JS <3'
-    this.speed = 300
+    this.speed = 3
   }
 
   static get observedAttributes () {
@@ -59,6 +59,11 @@ export class BartBoard extends window.HTMLElement {
 
   _write (event) {
     this._intervalID = setInterval(() => {
+      if (this._p.offsetHeight >= this.offsetHeight) {
+        this.dispatchEvent(new window.CustomEvent('filled'))
+        this.stopWriting()
+        return
+      }
       this._p.textContent += this.text.charAt(this._letter++)
       if (this._letter >= this.text.length) {
         this._letter = 0
@@ -69,6 +74,11 @@ export class BartBoard extends window.HTMLElement {
 
   stopWriting () {
     clearTimeout(this._intervalID)
+  }
+
+  wipe () {
+    this._p.textContent = ' '
+    this._letter = 0
   }
 }
 
