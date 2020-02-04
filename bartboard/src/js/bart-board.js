@@ -41,6 +41,10 @@ export class BartBoard extends window.HTMLElement {
 
   connectedCallback () {
     this.addEventListener('mousedown', this._write)
+    this.addEventListener('mouseup', this._onStopWriting)
+  }
+
+  disconnectedCallback () {
   }
 
   _write (event) {
@@ -52,7 +56,7 @@ export class BartBoard extends window.HTMLElement {
   }
 
   _onStopWriting (event) {
-
+    clearInterval(this._intervalID)
   }
 }
 
