@@ -16,7 +16,7 @@ template.innerHTML = `
     border-radius: 3px;
   }
 </style>
-<p id='text'>I love JS</p>
+<p id='text'></p>
 `
 
 export class BartBoard extends window.HTMLElement {
@@ -27,36 +27,48 @@ export class BartBoard extends window.HTMLElement {
     this.shadowRoot.appendChild(template.content.cloneNode(true))
     this._p = this.shadowRoot.querySelector('#text')
     this._intervalID = null
+    this._letter = 0
+    this.text = 'JS <3'
+    this.speed = 300
   }
 
   static get observedAttributes () {
-    return ['text']
+    return ['text', 'speed']
   }
 
   attributeChangedCallback (attrName, oldVal, newVal) {
-    // if (attrName === 'text') {
-    //   this.shadowRoot.querySelector('#text').innerText = newVal
-    // }
+    if (attrName === 'speed') {
+      this.speed = newVal
+    } else if (attrName === 'text') {
+      this.text = newVal
+    }
   }
 
   connectedCallback () {
     this.addEventListener('mousedown', this._write)
-    this.addEventListener('mouseup', this._onStopWriting)
+    this.addEventListener('mouseout', this.stopWriting)
+    this.addEventListener('mouseup', this.stopWriting)
   }
 
   disconnectedCallback () {
+    this.removeEventListener('mouseout', this.stopWriting)
+    this.removeEventListener('mouseup', this.stopWriting)
+    this.removeEventListener('mousedown', this._write)
+    this.stopWriting()
   }
 
   _write (event) {
     this._intervalID = setInterval(() => {
-      if (this.hasAttribute('text')) {
-        this._p.innerText += this.getAttribute('text')
+      this._p.textContent += this.text.charAt(this._letter++)
+      if (this._letter >= this.text.length) {
+        this._letter = 0
+        this._p.textContent += ' '
       }
-    }, 300)
+    }, this.speed)
   }
 
-  _onStopWriting (event) {
-    clearInterval(this._intervalID)
+  stopWriting () {
+    clearTimeout(this._intervalID)
   }
 }
 
