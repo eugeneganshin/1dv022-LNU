@@ -25,27 +25,34 @@ export class BartBoard extends window.HTMLElement {
 
     this.attachShadow({ mode: 'open' })
     this.shadowRoot.appendChild(template.content.cloneNode(true))
-  }
-
-  _updateRendering () {
-    if (this.hasAttribute('text')) {
-      this.shadowRoot.querySelector('#text').innerText = this.getAttribute('text')
-    }
+    this._p = this.shadowRoot.querySelector('#text')
+    this._intervalID = null
   }
 
   static get observedAttributes () {
     return ['text']
   }
 
-  connectedCallback () {
-    this._updateRendering()
+  attributeChangedCallback (attrName, oldVal, newVal) {
+    // if (attrName === 'text') {
+    //   this.shadowRoot.querySelector('#text').innerText = newVal
+    // }
   }
 
-  attributeChangedCallback (name, oldValue, newValue) {
-    // if (name === 'text') {
-    //   this.shadowRoot.querySelector('#text').innerText = newValue
-    // }
-    this._updateRendering()
+  connectedCallback () {
+    this.addEventListener('mousedown', this._write)
+  }
+
+  _write (event) {
+    this._intervalID = setInterval(() => {
+      if (this.hasAttribute('text')) {
+        this._p.innerText += this.getAttribute('text')
+      }
+    }, 300)
+  }
+
+  _onStopWriting (event) {
+
   }
 }
 
