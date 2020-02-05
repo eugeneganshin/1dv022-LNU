@@ -1,0 +1,10 @@
+.flex-container > div {
+  margin: 10px;
+  text-align: center;
+  line-height: 75px;
+}
+
+.flex-container img {
+  width: 100px;
+  height: 100px;
+}
