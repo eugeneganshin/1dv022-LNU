@@ -2,9 +2,9 @@ const template = document.createElement('template')
 template.innerHTML = `
 <style>
 :host {
-
 }
 </style>
+<button>Click!</button>
 <select>
   <option value="3">3x3</option>
   <option value="4">4x4</option>
@@ -18,11 +18,14 @@ export class MemoryGame extends HTMLElement {
 
   constructor (row, col) {
     super()
-    this.tiles = this.getArrOfPictures(row, col)
+    this.row = row
+    this.col = col
+    this.btn = this.shadowRoot.querySelector('button')
+    // this.tiles = this.getArrOfPictures(row, col)
+    // this.fill = this._fill(row, col)
 
     this.attachShadow({ mode: 'open' })
     this.shadowRoot.appendChild(template.content.cloneNode(true))
-    // this.fill = this._fill(row, col)
   }
 
   connectedCallback () {
@@ -34,26 +37,21 @@ export class MemoryGame extends HTMLElement {
   }
 
   _onClick () {
-    this.tiles.forEach(tile => {
-      // console.log(tile)
-    })
+    this.btn.addEventListener('click', this._fill())
   }
 
   getArrOfPictures (row, col) {
     const arr = []
-    // const p = document.createElement('p')
     for (let i = 0; i < (row * col) / 2; i++) {
       arr.push(i)
       arr.push(i)
     }
-    // console.log(arr)
   }
 
-  // _fill (row, col) {
-  //   for (let i = 0; i < 4 / 2; i++) {
-  //     this.appendChild(document.createElement('p'))
-  //   }
-  // }
+  _fill () {
+    const p = parent.document.createElement('p')
+    this.appendChild(p)
+  }
 }
 
 window.customElements.define('memory-game', MemoryGame)
