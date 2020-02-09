@@ -1,3 +1,3 @@
-import { Game } from './Game.js'
+import { MemoryGame } from './Game.js'
 
-const flip = new Game()
+const flip = new MemoryGame(3, 3)
