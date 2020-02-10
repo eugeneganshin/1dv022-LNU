@@ -1,8 +1,19 @@
-// import { MemoryGame } from './Game.js'
-// import { Test } from './Test.js'
-import { Lol } from './Lol.js'
+import { Game } from './Game.js'
 
-// const flip = new MemoryGame(3, 3)
-// const test = new Test(3, 3)
-const heh = new Lol(2, 2)
-document.querySelector('body').appendChild(heh)
+// const game = new Game(3, 3)
+// document.querySelector('body').appendChild(game)
+
+// getArrOfPictures () {
+//   const arr = []
+//   const btn = this.shadowRoot.querySelector('button')
+//   const val = this.shadowRoot.querySelector('#level')
+//   btn.onclick = function () {
+//     const result = val.options[val.selectedIndex].value
+//     for (let i = 1; i <= (result * result); i++) {
+//       console.log(result)
+//       // arr.push(i)
+//       // arr.push(i)
+//       // console.log(arr)
+//     }
+//   }
+// }
