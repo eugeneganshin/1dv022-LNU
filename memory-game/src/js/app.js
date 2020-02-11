@@ -1,4 +1,5 @@
 import { Game } from './Game.js'
+import { Test } from './Old.js'
 
 // const game = new Game(3, 3)
 // document.querySelector('body').appendChild(game)

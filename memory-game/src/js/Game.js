@@ -45,7 +45,8 @@ export class Game extends HTMLElement {
     this.row = row
     this.col = col
     this.tiles = []
-    // this.foo = this.foo()
+    this.foo = this.foo()
+    this.pass = this.pass()
     // this.testSmth = this.testSmth()
     this.appendElem = this.appendElem()
     this.getArrOfPictures = this.getArrOfPictures()
@@ -56,10 +57,12 @@ export class Game extends HTMLElement {
     console.log(this.col)
     console.log(typeof (this.row))
     console.log(this.getSelectedValue)
+    // console.log(this.getArrOfPictures)
   }
 
   getArrOfPictures () {
     const arr = []
+    const self = this
     const btn = this.shadowRoot.querySelector('button')
     const val = this.shadowRoot.querySelector('#level')
     btn.addEventListener('click', function () {
@@ -69,15 +72,8 @@ export class Game extends HTMLElement {
         arr.push(i)
       }
       arr.sort(() => Math.random() - 0.5)
-      console.log(this)
       return arr
     }, { once: true })
-  }
-
-  foo () {
-    let res = []
-    res = this.getArrOfPictures()
-    console.log(res)
   }
 
   appendElem () {
@@ -88,6 +84,22 @@ export class Game extends HTMLElement {
       img.setAttribute('width', '100px')
       board.appendChild(img)
     }
+  }
+
+  foo () {
+    const btn = this.shadowRoot.querySelector('button')
+    const val = this.shadowRoot.querySelector('#level')
+    let res
+    btn.addEventListener('click', function () {
+      res = val.options[val.selectedIndex].value
+      return res
+    })
+  }
+
+  pass () {
+    const btn = this.shadowRoot.querySelector('button')
+    const data = this.foo()
+    console.log(data.res)
   }
 }
 
@@ -128,3 +140,5 @@ window.customElements.define('x-game', Game)
 //     return result * result
 //   }
 // }
+
+// создай arr прямо в элементе и апдейти его в функции, потом бери из него че хочешь в другой????
