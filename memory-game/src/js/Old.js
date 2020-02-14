@@ -72,11 +72,35 @@ export class Test extends HTMLElement {
 
     this.tiles = []
     this.level = level
-    this.getArrayOfPictures = this.getArrayOfPictures()
+    // this.getArrayOfPictures = this.getArrayOfPictures()
     this.updateLevel = this.updateLevel()
-    this.fill = this.fill()
+    // this.fill = this.fill()
   }
 
+  connectedCallback () {
+    this.btn.addEventListener('click', function () { console.log('l') })
+  }
+
+  /**
+   * creates array
+   */
+  getArrayOfPictures () {
+    // const btn = this.shadowRoot.querySelector('button')
+    const self = this
+    const arr = []
+    this.btn.addEventListener('click', function () {
+      for (let i = 1; i < (self.level * self.level) / 2; i++) {
+        arr.push(i)
+        arr.push(i)
+        arr.sort(() => Math.random() - 0.5)
+        console.log(arr)
+      }
+    })
+  }
+
+  /**
+   *onlick gets value of select
+   */
   updateLevel () {
     const self = this
     // const btn = this.shadowRoot.querySelector('button')
@@ -84,10 +108,13 @@ export class Test extends HTMLElement {
 
     this.btn.addEventListener('click', function () {
       self.level = val.options[val.selectedIndex].value
-      console.log()
+      console.log(self.level)
     })
   }
 
+  /**
+   *fills with pics
+   */
   fill () {
     const self = this
     // const btn = this.shadowRoot.querySelector('button')
@@ -101,20 +128,6 @@ export class Test extends HTMLElement {
         img.setAttribute('src', 'image/0.png')
         img.setAttribute('width', '100px')
         board.appendChild(img)
-      }
-    })
-  }
-
-  getArrayOfPictures () {
-    // const btn = this.shadowRoot.querySelector('button')
-    const self = this
-    const arr = []
-    this.btn.addEventListener('click', function () {
-      for (let i = 1; i < (self.level * self.level) / 2; i++) {
-        arr.push(i)
-        arr.push(i)
-        arr.sort(() => Math.random() - 0.5)
-        console.log(arr)
       }
     })
   }
