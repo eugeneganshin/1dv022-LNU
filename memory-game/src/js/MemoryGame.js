@@ -1,36 +1,51 @@
 'use strict'
 
-// const pictures = document.createElement('template')
-// pictures.innerText = `
-// <p>Heyhey</p>
-// <img src="image/0.png" alt="A memory brick" />
-// `
+const pictures = document.createElement('template')
+pictures.innerHTML = `
+<a href="#"><img src="image/0.png" /></a>
+`
 
 const template = document.createElement('template')
 template.innerHTML = `
 <style>
 :host {
   background:#FFFFFF;
+  display: flex;
+  max-width: 400px;
+  min-height: 400px;
+  flex-basis: auto;
+  flex-wrap: wrap;
+  border:6px solid #2B56C6;
+  border-bottom:12px solid #2B56C6;
+  position: relative;
+
 }
 
 img {
-  width:10%;
-  height: 10%;
+  min-width: 50px;
+  max-width: 100px;
 }
 
-#board {
-  display: flex;
-  flex-wrap: wrap;
+.display {
+  padding-bottom: 25px;
+}
+
+.menu {
+  text-align: center;
+  position:absolute;
+  bottom: 0;
+  border-top: 6px solid #2B56C6;
+  width:400px;
 }
 </style>
-<div class="container">
-  <div id="board"></div>
-  <div class="menu">
-    <div id="allButtons">
-      <button id="easy">Easy</button>
-      <button id="medium">Medium</button>
-      <button id="hard">Hard</button>
-    </div>
+
+<div class="display">
+
+</div>
+<div class="menu">
+  <div id="allButtons">
+    <button id="easy">Easy</button>
+    <button id="medium">Medium</button>
   </div>
 </div>
 `
@@ -39,16 +54,11 @@ export class MemoryGame extends window.HTMLElement {
   constructor () {
     super()
 
-    // this.getArrayOfPictures = this.getArrayOfPictures.bind(this)
-
     this.attachShadow({ mode: 'open' })
     this.shadowRoot.appendChild(template.content.cloneNode(true))
 
     this.allBtn = this.shadowRoot.querySelector('#allButtons')
-    this.display = this.shadowRoot.querySelector('#board')
-
-    this.tiles = []
-    this.level = 0
+    this.display = this.shadowRoot.querySelector('.display')
     this.self = this
   }
 
@@ -58,19 +68,15 @@ export class MemoryGame extends window.HTMLElement {
         this.updateLevel('easy')
       } else if (event.target.id === 'medium') {
         this.updateLevel('medium')
-      } else if (event.target.id === 'hard') {
-        this.updateLevel('hard')
-      }
+      } else { console.error('Error') }
     }, { once: true })
   }
 
   updateLevel (param) {
     if (param === 'easy') {
       this.getArrayOfPictures(8)
-    } else if (param === 'medium') {
-      this.getArrayOfPictures(16)
     } else {
-      this.getArrayOfPictures(24)
+      this.getArrayOfPictures(16)
     }
   }
 
@@ -85,24 +91,23 @@ export class MemoryGame extends window.HTMLElement {
   }
 
   fill (tiles) {
-    const that = this
     tiles.forEach((tile, index) => {
       const img = document.createElement('img')
       img.setAttribute('src', 'image/0.png')
-      that.display.appendChild(img)
-      img.addEventListener('click', event => this.turnBrick(tile, index, img))
+      this.display.appendChild(img)
+      img.addEventListener('click', event => this.turnBrick(tile, event.target))
     })
   }
 
-  turnBrick (tile, index, img) {
+  turnBrick (tile, img) {
     img.src = 'image/' + tile + '.png'
   }
 }
 
 window.customElements.define('x-game', MemoryGame)
 
-// padding:10px;
-// margin:10px;
-// float:left;
-// overflow:hidden;
-// border-radius: 3px;
+// const img = document.createElement('img')
+// img.setAttribute('src', 'image/0.png')
+//       that.display.appendChild(img)
+//       img.addEventListener('click', event => this.turnBrick(tile, index, event.target))
+// img.src = 'image/' + tile + '.png'
