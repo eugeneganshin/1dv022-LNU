@@ -66,11 +66,11 @@ export class MemoryGame extends window.HTMLElement {
 
   updateLevel (param) {
     if (param === 'easy') {
-      this.getArrayOfPictures(9)
+      this.getArrayOfPictures(8)
     } else if (param === 'medium') {
       this.getArrayOfPictures(16)
     } else {
-      this.getArrayOfPictures(25)
+      this.getArrayOfPictures(24)
     }
   }
 
@@ -81,21 +81,21 @@ export class MemoryGame extends window.HTMLElement {
       arr.push(i)
       arr.sort(() => Math.random() - 0.5)
     }
-    console.log(arr)
     this.fill(arr)
   }
 
   fill (tiles) {
     const that = this
-    tiles.forEach(function (tile, index) {
+    tiles.forEach((tile, index) => {
       const img = document.createElement('img')
       img.setAttribute('src', 'image/0.png')
       that.display.appendChild(img)
-      img.addEventListener('click', event => console.log(tile))
+      img.addEventListener('click', event => this.turnBrick(tile, index, img))
     })
   }
 
-  disconnectedCallback () {
+  turnBrick (tile, index, img) {
+    img.src = 'image/' + tile + '.png'
   }
 }
 
