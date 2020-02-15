@@ -1,10 +1,5 @@
 'use strict'
 
-const pictures = document.createElement('template')
-pictures.innerHTML = `
-<a href="#"><img src="image/0.png" /></a>
-`
-
 const template = document.createElement('template')
 template.innerHTML = `
 <style>
@@ -37,6 +32,10 @@ img {
   border-top: 6px solid #2B56C6;
   width:400px;
 }
+
+.hide {
+  visibility: hidden;
+}
 </style>
 
 <div class="display">
@@ -60,6 +59,10 @@ export class MemoryGame extends window.HTMLElement {
     this.allBtn = this.shadowRoot.querySelector('#allButtons')
     this.display = this.shadowRoot.querySelector('.display')
     this.self = this
+
+    this.turn1 = null
+    this.turn2 = null
+    this.lastTile = null
   }
 
   connectedCallback () {
@@ -85,12 +88,18 @@ export class MemoryGame extends window.HTMLElement {
     for (let i = 1; i <= condition / 2; i++) {
       arr.push(i)
       arr.push(i)
-      arr.sort(() => Math.random() - 0.5)
+      // arr.sort(() => Math.random() - 0.5)
     }
     this.fill(arr)
   }
 
   fill (tiles) {
+    /*
+    Reset the tiles
+    // while (this.display.firstChild) {
+    //   this.display.removeChild(this.display.firstChild)
+    // }
+    */
     tiles.forEach((tile, index) => {
       const img = document.createElement('img')
       img.setAttribute('src', 'image/0.png')
@@ -101,13 +110,34 @@ export class MemoryGame extends window.HTMLElement {
 
   turnBrick (tile, img) {
     img.src = 'image/' + tile + '.png'
+
+    if (!this.turn1) {
+      this.turn1 = img
+      this.lastTile = tile
+    } else {
+      if (img === this.turn1) { return }
+      this.turn2 = img
+      if (tile === this.lastTile) {
+        console.log('pair')
+
+        window.setTimeout(() => {
+          this.turn1.classList.add('hide')
+          this.turn2.classList.add('hide')
+
+          this.turn1 = null
+          this.turn2 = null
+        }, 100)
+      } else {
+        window.setTimeout(() => {
+          this.turn1.src = 'image/0.png'
+          this.turn2.src = 'image/0.png'
+
+          this.turn1 = null
+          this.turn2 = null
+        }, 500)
+      }
+    }
   }
 }
 
 window.customElements.define('x-game', MemoryGame)
-
-// const img = document.createElement('img')
-// img.setAttribute('src', 'image/0.png')
-//       that.display.appendChild(img)
-//       img.addEventListener('click', event => this.turnBrick(tile, index, event.target))
-// img.src = 'image/' + tile + '.png'
