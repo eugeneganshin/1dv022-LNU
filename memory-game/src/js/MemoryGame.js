@@ -1,7 +1,7 @@
 'use strict'
 const pictures = document.createElement('template')
-pictures.innerText = `
-<a href="#"><img src="image/0.png"></a>
+pictures.innerHTML = `
+<a href="#"><img src="image/0.png" /></>
 `
 const template = document.createElement('template')
 template.innerHTML = `
@@ -9,7 +9,7 @@ template.innerHTML = `
 :host {
   background:#FFFFFF;
   display: flex;
-  max-width: 400px;
+  max-width: 412px;
   min-height: 400px;
   flex-basis: auto;
   flex-wrap: wrap;
@@ -33,7 +33,7 @@ img {
   position:absolute;
   bottom: 0;
   border-top: 6px solid #2B56C6;
-  width:400px;
+  width:412px;
 }
 
 .hide {
@@ -68,7 +68,6 @@ export class MemoryGame extends window.HTMLElement {
     this.lastTile = null
     this.pairs = 0
     this.try = 0
-    this.delegate = this.delegate()
   }
 
   connectedCallback () {
@@ -91,39 +90,32 @@ export class MemoryGame extends window.HTMLElement {
 
   getArrayOfPictures (condition) {
     const arr = []
-    for (let i = 1; i <= condition / 2; i++) {
+    let i
+    for (i = 1; i <= condition / 2; i++) {
       arr.push(i)
       arr.push(i)
       arr.sort(() => Math.random() - 0.5)
     }
-    // this.fill(arr)
     this.delegate(arr)
   }
 
-  // fill (tiles) {
-  //   while (this.display.firstChild) {
-  //     this.display.removeChild(this.display.firstChild)
-  //   }
-  //   tiles.forEach((tile, index) => {
-  //     const img = document.createElement('img')
-  //     img.setAttribute('src', 'image/0.png')
-  //     this.display.appendChild(img)
-  //     img.addEventListener('click', event => this.turnBrick(tile, event.target))
-  //   })
-  // }
-
   delegate (tiles) {
-    // tiles.forEach((tile, index) => {
-    //   this.display.appendChild(pictures.content.cloneNode(true))
-    // })
-    // event.preventDefault()
-    // this.display.addEventListener('click', event => this.turnBrick(tile, event.target))
-    const a = this.display.appendChild(pictures.content.cloneNode(true))
-
-    console.log(a)
+    while (this.display.firstChild) {
+      this.display.removeChild(this.display.firstChild)
+    }
+    const imgElem = pictures.content.childNodes[1].childNodes[0]
+    tiles.forEach((tile, index) => {
+      imgElem.setAttribute('data-img-number', index)
+      this.display.appendChild(pictures.content.cloneNode(true))
+    })
+    this.display.addEventListener('click', event => {
+      const img = event.target.nodeName === 'IMG' ? event.target : event.target.firstElementChild
+      const index = parseInt(img.getAttribute('data-img-number'))
+      this.turnBrick(tiles[index], index, img)
+    })
   }
 
-  turnBrick (tile, img) {
+  turnBrick (tile, index, img) {
     if (this.turn2) { return }
     img.src = 'image/' + tile + '.png'
     if (!this.turn1) {
@@ -145,6 +137,8 @@ export class MemoryGame extends window.HTMLElement {
         window.setTimeout(() => {
           this.turn1.classList.add('hide')
           this.turn2.classList.add('hide')
+          console.log(this.turn1)
+          console.log(this.turn2)
 
           this.turn1 = null
           this.turn2 = null
