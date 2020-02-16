@@ -1,26 +1,48 @@
-// const template = document.createElement('template')
-// template.innerHTML = `
-// <div class="input-field">
-//   <input id="teamselector" type="text" list="teams">
-//   <label class="active" for="teamselector">Search for a team:</label>
-//   <datalist id="teams"></datalist>
-// </div>
-// `
-// export class TeamSelector extends window.HTMLElement {
-//   constructor () {
-//     super()
+'use strict'
+const template = document.createElement('template')
+template.innerHTML = `
+<div class="input-field">
+  <label class="active" for="teamselector">Search for a team:</label>
+  <input id="team-selector" type="text" list="teams">
+  <datalist id="teams"></datalist>
+</div>
+`
+export class TeamSelector extends window.HTMLElement {
+  constructor () {
+    super()
 
-//     this.attachShadow({ mode: 'open' })
-//     this.shadowRoot.appendChild(template.content.cloneNode(true))
-//   }
+    this.attachShadow({ mode: 'open' })
+    this.shadowRoot.appendChild(template.content.cloneNode(true))
+    this._input = this.shadowRoot.querySelector('#team-selector')
+    this.teams = []
+  }
 
-//   static get observedAttributes () {
-//     return []
-//   }
+  static get observedAttributes () {
+    return []
+  }
 
-//   attributeChangeCallback (name, olfValue, newValue) {
+  attributeChangeCallback (name, olfValue, newValue) {
 
-//   }
-// }
+  }
 
-// window.customElements.define('x-team-selector', TeamSelector)
+  connectedCallback () {
+    this._input.addEventListener('input', async event => {
+      this.teams = await this.search(this._input.value)
+      this._updateRendering(this.teams)
+    })
+  }
+
+  async search (string) {
+    let searchResult = await window.fetch(`http://localhost:3000/api/teams?q=${string}`)
+    searchResult = await searchResult.json()
+    return searchResult.teams
+  }
+
+  _updateRendering (teams) {
+    for (let team of teams) {
+      console.log(team.name)
+    }
+  }
+}
+
+window.customElements.define('x-team-selector', TeamSelector)
