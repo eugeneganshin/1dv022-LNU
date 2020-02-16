@@ -14,6 +14,7 @@ export class TeamSelector extends window.HTMLElement {
     this.attachShadow({ mode: 'open' })
     this.shadowRoot.appendChild(template.content.cloneNode(true))
     this._input = this.shadowRoot.querySelector('#team-selector')
+    this._dataList = this.shadowRoot.querySelector('#teams')
     this.teams = []
   }
 
@@ -39,8 +40,10 @@ export class TeamSelector extends window.HTMLElement {
   }
 
   _updateRendering (teams) {
-    for (let team of teams) {
-      console.log(team.name)
+    for (const team of teams) {
+      const opt = document.createElement('option')
+      opt.setAttribute('value', `${team.name}`)
+      this._dataList.appendChild(opt)
     }
   }
 }
