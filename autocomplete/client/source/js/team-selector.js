@@ -33,12 +33,24 @@ export class TeamSelector extends window.HTMLElement {
     })
   }
 
+  /**
+   * Takes the input.value and searches for the matches.
+   * Returns array of objects
+   * @param {string} string
+   * @returns {array}
+   */
   async search (string) {
     let searchResult = await window.fetch(`http://localhost:3000/api/teams?q=${string}`)
     searchResult = await searchResult.json()
+    console.log(searchResult.teams)
     return searchResult.teams
   }
 
+  /**
+   * Loops over array of objects
+   * Creats <option> and appends obj.name
+   * @param {array} teams
+   */
   _updateRendering (teams) {
     for (const team of teams) {
       const opt = document.createElement('option')
